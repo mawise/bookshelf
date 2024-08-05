@@ -1,0 +1,20 @@
+@font-face {
+    font-family: 'Antonio'; 
+    src: url('/fonts/antonio/Antonio-Regular.ttf');
+}
+
+@font-face {
+    font-family: 'Patua'; 
+    src: url('/fonts/patua-one/PatuaOne-Regular.otf');
+}
+
+.container,
+.book-container,
+.book {
+    transform-style: preserve-3d;
+    position: absolute;
+}
+
+.spine {
+  overflow: hidden;
+}

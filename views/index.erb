@@ -1,0 +1,38 @@
+<html>
+<head>
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/anim.css">
+</head>
+<body style="font-family:sans-serif;">
+<% offset = 0 # where to move each book on the shelf %>
+<div class="container" style="transform-style: preserve-3d;  perspective: 800px; width: 100%; height: 300px; margin: 200px; background: #fcc;">
+<% max_height = 0
+   @books.each do |b|
+     book_height = 200 / b.aspect_ratio
+     max_height = book_height if book_height > max_height
+   end
+ %>
+<% @books.each_with_index do |book, book_index| %>
+  <% pages = book.page_count * 50 / 400 # every 400 pages is 50px of book thickness
+     book_height = 200 / book.aspect_ratio
+     title_font_size = 0.8*pages
+     title_font_size = 12 if title_font_size > 12
+   %>
+  <div class="book-container" style="transform-style: preserve-3d; position: absolute; transform: translateX(<%= offset+pages/2 %>px) translateY(<%=max_height-book_height%>px);">
+  <% offset += pages + 2 %>
+    <div class="book" style="transform-style: preserve-3d; position: absolute; transform: rotateY(90deg);">
+      <img class="cover" src="<%="/download#{book.cover}"%>" style="width: 200px; height: <%=book_height %>px; border-top-right-radius: 3px;border-bottom-right-radius: 3px; transform: translateZ(<%=pages/2%>px)"> </img> 
+      <div class="spine" style="width: <%=pages%>px; height: <%=book_height%>px; background: <%=book.cover_color%>; color: #eee; line-height: <%=pages%>px; text-align: center; writing-mode: vertical-rl; transform: translateX(-<%=pages/2%>px) translateY(-<%=book_height%>px) rotateY(-90deg);">
+        <span class="title" style="font-size: <%=title_font_size%>px; font-family: Patua; line-height: <%=pages%>px;"><%= book.title %></span>&emsp;
+        <span class="author" style="font-size: <%=title_font_size%>px; font-family: Antonio; line-height: <%=pages%>px;"><%= book.author %></span>
+      </div>
+      <div class="back" style="width: 200px; height: <%=book_height%>px; background:<%=book.cover_color%>; border-top-right-radius: 3px;border-bottom-right-radius: 3px; transform: translateY(-<%=book_height*2%>px) translateZ(-<%=pages/2%>px)"> </div>
+      <div class="pages" style="width: <%=pages-1%>px; height: <%=book_height-6%>px; background: #f1f1f1; transform: translateY(-<%=book_height*3 - 3%>px) translateX(<%=200-pages/2-3%>px) rotateY(90deg)"> </div>
+    </div>
+  </div>
+<% end %>
+
+</div>
+  
+</body>
+</html>

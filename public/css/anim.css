@@ -1,0 +1,19 @@
+@keyframes bookspin {
+  0% {rotate: y -40deg;}
+  50% {rotate: y 130deg;}
+  100% {rotate: y -40deg;}
+}
+
+@keyframes bookdisplay {
+  0% { transform: translateX(0px) rotateY(90deg);}
+  25% { transform: translateZ(250px) rotateY(90deg);}
+  50% { transform: translateZ(250px) rotateY(0deg);}
+  100% { transform: translateZ(250px) rotateY(0deg);}
+}
+
+.book:hover {
+  animation-name: bookdisplay;
+  animation-duration: 2s;
+  animation-timing-function: ease;
+  animation-fill-mode: both;
+}
