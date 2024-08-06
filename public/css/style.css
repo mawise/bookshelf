@@ -17,4 +17,30 @@
 
 .spine {
   overflow: hidden;
+  text-align: center;
+  writing-mode: vertical-rl;
+}
+
+.spine .title,
+.spine .title-series {
+  font-family: Patua;
+}
+
+.spine .author,
+.spine .author-series {
+  font-family: Antonio;
+}
+
+.cover {
+  border-top-right-radius: 3px;
+  border-bottom-right-radius: 3px;
+}
+
+.back {
+  border-top-left-radius: 3px;
+  border-bottom-left-radius: 3px;
+  font-size: 8px;
+  box-sizing: border-box;
+  padding: 8px;
+  overflow: hidden;
 }

@@ -1,19 +1,37 @@
-@keyframes bookspin {
-  0% {rotate: y -40deg;}
-  50% {rotate: y 130deg;}
-  100% {rotate: y -40deg;}
-}
-
 @keyframes bookdisplay {
   0% { transform: translateX(0px) rotateY(90deg);}
-  25% { transform: translateZ(250px) rotateY(90deg);}
-  50% { transform: translateZ(250px) rotateY(0deg);}
-  100% { transform: translateZ(250px) rotateY(0deg);}
+  50% { transform: translateZ(210px) rotateY(90deg);}
+  100% { transform: translateZ(210px) rotateY(0deg);}
 }
 
-.book:hover {
+@keyframes bookflip {
+  0% { transform: translateZ(210px) rotateY(0deg);}
+  100% { transform: translateZ(210px) rotateY(180deg);}  
+}
+
+@keyframes bookaway {
+  0% { transform: translateZ(210px) rotateY(180deg);}  
+  50% { transform: translateZ(210px) rotateY(90deg);}
+  100% { transform: translateX(0px) rotateY(90deg);}
+}
+
+.book-show {
   animation-name: bookdisplay;
-  animation-duration: 2s;
+  animation-duration: 1.3s;
   animation-timing-function: ease;
   animation-fill-mode: both;
 }
+
+.book-showback {
+  animation-name: bookflip;
+  animation-duration: 0.7s;
+  animation-timing-function: ease;
+  animation-fill-mode: both;
+}
+
+.book-putaway {
+  animation-name: bookaway;
+  animation-duration: 0.7s;
+  animation-timing-function: ease;
+  animation-fill-mode: both;
+} 

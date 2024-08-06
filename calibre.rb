@@ -24,6 +24,10 @@ class CalibreBook
     @id = book_id
   end
 
+  def id
+    return @id
+  end
+
   def title
     @title ||= @@db.execute("select title from books where id = #{@id}").first.first
   end
@@ -54,6 +58,16 @@ class CalibreBook
     return @series_index
   end
 
+  def description
+    return @description unless @description.nil?
+    begin
+      @description = @@db.execute("select text from comments where book = #{@id}").first.first
+    rescue
+      @description = ""
+    end
+    return @description
+  end
+
   def book_path
     @book_path ||= @@db.execute("select path from books where id = #{@id}").first.first
   end
@@ -72,11 +86,26 @@ class CalibreBook
   def cover_color
     return @cover_color unless @cover_color.nil?
     img =  Magick::Image.read(self.cover).first
-    pix = img.resize(200,300)
-    color = pix.pixel_color(1,30)
+    img_small = img.resize(0.1)
+    color = img.pixel_color(2,img.base_rows*0.025)
     colorhex = [color.red, color.green, color.blue].map{|x| x.to_s(16)[0...2].ljust(2, '0')}.join.upcase
     @cover_color =  "#" + colorhex 
     return @cover_color
+  end
+
+  def cover_contrast
+    return @cover_contrast unless @cover_contrast.nil?
+    color_string = self.cover_color
+    red = color_string[1..2].to_i(16)
+    green = color_string[3..4].to_i(16)
+    blue = color_string[5..6].to_i(16)
+    brightness = (red + green + blue)/3.0
+    if brightness > 128
+      @cover_contrast = "#111"
+    else
+      @cover_contrast = "#eee"
+    end
+    return @cover_contrast
   end
 
   def aspect_ratio
