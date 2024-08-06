@@ -15,8 +15,22 @@ get '/' do
   erb :index
 end
 
+get '/author/:query' do
+  @books = CalibreBook.search_author params['query']
+  erb :index
+end
+
+get '/series/:query' do
+  @books = CalibreBook.search_series params['query']
+  erb :index
+end
+
 get '/download/*' do
-  filepath = params['splat'].first
-  puts "trying to send_file for #{filepath}"
-  send_file "/#{filepath}"
+  filepath = "/" + params['splat'].first
+  puts "DEBUG getting #{filepath}"
+  if filepath.start_with? bookdir
+    send_file filepath
+  else
+    raise Sinatra::NotFound
+  end
 end

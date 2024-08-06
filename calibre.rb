@@ -20,6 +20,18 @@ class CalibreBook
     @@db.execute("select id from books limit #{limit}").flatten.map{|book_id| CalibreBook.new(book_id)}
   end
 
+  def self.search_author(query)
+    @@db.execute("select books.id FROM books JOIN books_authors_link ON books.id == books_authors_link.book JOIN authors ON books_authors_link.author == authors.id WHERE authors.name LIKE '#{query}'")
+        .flatten.map{|book_id| CalibreBook.new(book_id)}
+        .sort_by{|book| [book.series, book.series_index]}
+  end
+
+  def self.search_series(query)
+    @@db.execute("select books.id FROM books JOIN books_series_link ON books.id == books_series_link.book JOIN series ON books_series_link.series == series.id WHERE series.name LIKE '#{query}'")
+        .flatten.map{|book_id| CalibreBook.new(book_id)}
+        .sort_by{|book| [book.series, book.series_index]}
+  end
+
   def initialize(book_id)
     @id = book_id
   end
@@ -56,6 +68,15 @@ class CalibreBook
       @series_index = 0
     end
     return @series_index
+  end
+
+  def series_index_display
+    i = self.series_index
+    if i.to_i.to_f == i.to_f
+      return i.to_i.to_s
+    else
+      return i.to_s
+    end
   end
 
   def description

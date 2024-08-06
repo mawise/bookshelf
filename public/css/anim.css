@@ -1,20 +1,31 @@
+/* stowed on shelf -> display front cover */
 @keyframes bookdisplay {
   0% { transform: translateX(0px) rotateY(90deg);}
   50% { transform: translateZ(210px) rotateY(90deg);}
   100% { transform: translateZ(210px) rotateY(0deg);}
 }
 
+/* display front cover -> display back cover */
 @keyframes bookflip {
   0% { transform: translateZ(210px) rotateY(0deg);}
   100% { transform: translateZ(210px) rotateY(180deg);}  
 }
 
+/* display back cover -> stowed on shelf */
 @keyframes bookaway {
   0% { transform: translateZ(210px) rotateY(180deg);}  
   50% { transform: translateZ(210px) rotateY(90deg);}
   100% { transform: translateX(0px) rotateY(90deg);}
 }
 
+/* display front cover -> stowed on shelf */
+@keyframes bookshowaway {
+  0% { transform: translateZ(210px) rotateY(0deg);}  
+  50% { transform: translateZ(210px) rotateY(90deg);}
+  100% { transform: translateX(0px) rotateY(90deg);}
+}
+
+/* stowed on shelf -> display front cover */
 .book-show {
   animation-name: bookdisplay;
   animation-duration: 1.3s;
@@ -22,6 +33,7 @@
   animation-fill-mode: both;
 }
 
+/* display front cover -> display back cover */
 .book-showback {
   animation-name: bookflip;
   animation-duration: 0.7s;
@@ -29,6 +41,15 @@
   animation-fill-mode: both;
 }
 
+/* display front cover -> stowed on shelf */
+.book-showaway {
+  animation-name: bookshowaway;
+  animation-duration: 0.7s;
+  animation-timing-function: ease;
+  animation-fill-mode: both;
+} 
+
+/* display back cover -> stowed on shelf */
 .book-putaway {
   animation-name: bookaway;
   animation-duration: 0.7s;
