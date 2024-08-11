@@ -4,26 +4,37 @@
 <link rel="stylesheet" href="/css/anim.css?q=<%=(rand*10000).to_i%>">
 </head>
 <body style="font-family:sans-serif;">
-<% offset = 0 # where to move each book on the shelf %>
-<div class="container" style="perspective: 800px; width: 100%; height: 300px; margin: 200px;">
-<% max_height = 0
+<% 
+   def darker(hexcolors)
+     red = hexcolors[1..2].to_i(16)
+     green = hexcolors[3..4].to_i(16)
+     blue = hexcolors[5..6].to_i(16)
+     return "#" + [red,green,blue].map{|c| (c*0.8).to_i.to_s(16).rjust(2, "0")}.join
+   end
+
+   offset = 0 # where to move each book on the shelf
+   max_offset = 0
+   max_height = 0
    @books.each do |b|
-     book_height = 200 / b.aspect_ratio
+     book_height = (200 / b.aspect_ratio).to_i
      max_height = book_height if book_height > max_height
+     max_offset += b.nonlinear_thickness
    end
  %>
+<div class="container" style="perspective: 800px; height: 300px; width: <%=max_offset+400%>px; margin: 200px;">
 <% @books.each_with_index do |book, book_index| %>
-  <% pages = book.page_count * 50 / 400 # every 400 pages is 50px of book thickness
-     book_height = 200 / book.aspect_ratio
-     title_font_size = [0.9*pages, 12].min
-     title_font_size = [0.5*pages, 12].min unless book.series.nil?
-     series_font_size = [0.8*pages, 12].min
+  <% #pages = (book.page_count * 50 / 400).to_i # every 400 pages is 50px of book thickness
+     pages = book.nonlinear_thickness
+     book_height = (200 / book.aspect_ratio).to_i
+     title_font_size = [0.9*pages, 12].min.to_i
+     title_font_size = [0.5*pages, 12].min.to_i unless book.series.empty?
+     series_font_size = [0.8*pages, 12].min.to_i
    %>
   <div class="book-container" style="transform: translateX(<%= offset+pages/2 %>px) translateY(<%=max_height-book_height%>px);">
-  <% offset += pages + 2 %>
+  <% offset += pages %>
     <div id="<%=book.id%>" class="book" style="transform: rotateY(90deg);" onclick="toggleBook(this.id)">
       <img class="cover" src="<%="/download#{book.cover}"%>" style="width: 200px; height: <%=book_height %>px; transform: translateZ(<%=pages/2%>px)"> </img> 
-      <div class="spine<%=book.series.empty? ? "" : "-series"%>" style="width: <%=pages%>px; height: <%=book_height%>px; background: <%=book.cover_color%>; color: <%=book.cover_contrast%>; line-height: <%=pages%>px; transform: translateX(-<%=pages/2%>px) translateY(-<%=book_height%>px) rotateY(-90deg);">
+      <div class="spine<%=book.series.empty? ? "" : "-series"%>" style="width: <%=pages%>px; height: <%=book_height%>px; background: <%=book.cover_color%> linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.1) 20%, rgba(255,255,255,0.1) 80%, rgba(255,255,255,0) 100%);; color: <%=book.cover_contrast%>; line-height: <%=pages%>px; transform: translateX(-<%=pages/2%>px) translateY(-<%=book_height%>px) rotateY(-90deg);">
   <% if book.series.empty? %>
         <span class="title" style="font-size: <%=title_font_size+1%>px; line-height: <%=pages%>px;"><%= book.title %></span>&emsp;
         <span class="author" style="font-size: <%=title_font_size%>px; line-height: <%=pages%>px;"><%= book.author %></span>
@@ -39,7 +50,11 @@
   <% end %>
       </div>
       <div class="back" style="color: <%=book.cover_contrast%>; width: 200px; height: <%=book_height%>px; background:<%=book.cover_color%>; transform: translateY(-<%=book_height*2%>px) translateZ(-<%=pages/2%>px) rotateY(180deg)">
-        <%= book.description %>
+        <div style="width: <%=200-16%>px; height: <%=book_height-16-8%>px; overflow: hidden"><%= book.description %></div>
+        <div style="width: <%=200-16%>px; height: 8px; text-align: center">
+          <a href="#" style="float:left;color:<%=book.cover_contrast%>">Download</a>
+          <span style="float:right;"><%=book.class.has_pages? ? "#{book.page_count} pages" : "" %></span>
+        </div>
       </div>
       <div class="pages" style="width: <%=pages-1%>px; height: <%=book_height-6%>px; background: #f1f1f1; transform: translateY(-<%=book_height*3 - 3%>px) translateX(<%=200-pages/2-3%>px) rotateY(90deg)"> </div>
     </div>

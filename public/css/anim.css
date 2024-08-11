@@ -25,6 +25,11 @@
   100% { transform: translateX(0px) rotateY(90deg);}
 }
 
+.book:hover {
+  transition: transform 1s;
+  transform: translateZ(-20px);
+}
+
 /* stowed on shelf -> display front cover */
 .book-show {
   animation-name: bookdisplay;

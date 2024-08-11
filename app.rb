@@ -1,5 +1,4 @@
 require 'sinatra'
-require 'rmagick'
 require_relative 'calibre.rb'
 
 ## setup
@@ -11,7 +10,7 @@ books = CalibreBook.some_books(15)
 ## endpoints
 
 get '/' do
-  @books = books
+  @books = CalibreBook.some_books(20)
   erb :index
 end
 

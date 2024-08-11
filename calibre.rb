@@ -1,4 +1,5 @@
 require 'sqlite3'
+require 'rmagick'
 
 class CalibreBook
   def self.connect(path_to_calibre_db)
@@ -12,12 +13,20 @@ class CalibreBook
     end
   end
 
+  def self.has_pages?
+    return !@@pagecount_column.nil?
+  end
+
   def self.all_books()
-    @@db.execute("select id from books").flatten.map{|book_id| CalibreBook.new(book_id)}
+    @@db.execute("select id from books")
+        .flatten.map{|book_id| CalibreBook.new(book_id)}
+        .sort_by{|book| [book.author, book.series, book.series_index]}
   end
 
   def self.some_books(limit=10)
-    @@db.execute("select id from books limit #{limit}").flatten.map{|book_id| CalibreBook.new(book_id)}
+    @@db.execute("select id from books limit #{limit}")
+        .flatten.map{|book_id| CalibreBook.new(book_id)}
+        .sort_by{|book| [book.author, book.series, book.series_index]}
   end
 
   def self.search_author(query)
@@ -107,10 +116,10 @@ class CalibreBook
   def cover_color
     return @cover_color unless @cover_color.nil?
     img =  Magick::Image.read(self.cover).first
+    height = img.base_rows
     img_small = img.resize(0.1)
-    color = img.pixel_color(2,img.base_rows*0.025)
-    colorhex = [color.red, color.green, color.blue].map{|x| x.to_s(16)[0...2].ljust(2, '0')}.join.upcase
-    @cover_color =  "#" + colorhex 
+    color = img_small.pixel_color(2,img.base_rows*0.025)
+    @cover_color = color.to_color(Magick::AllCompliance, false, 8, true)
     return @cover_color
   end
 
@@ -153,6 +162,10 @@ class CalibreBook
   def page_count
     return 300 if @@pagecount_column.nil?
     @page_count ||= @@db.execute("select value from custom_column_#{@@pagecount_column} where book=#{@id}").first.first
+  end
+
+  def nonlinear_thickness
+    @thickness ||= [0.85*(self.page_count**0.6),8].max
   end
 end
 
