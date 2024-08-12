@@ -10,7 +10,7 @@ books = CalibreBook.some_books(15)
 ## endpoints
 
 get '/' do
-  @books = CalibreBook.some_books(20)
+  @books = CalibreBook.some_books(25)
   erb :index
 end
 
@@ -26,6 +26,7 @@ end
 
 get '/download/*' do
   filepath = "/" + params['splat'].first
+  filepath.gsub!("/../","/") # try to avoid exposing the whole filesystem, probably not good enough
   puts "DEBUG getting #{filepath}"
   if filepath.start_with? bookdir
     send_file filepath

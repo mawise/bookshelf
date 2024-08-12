@@ -47,7 +47,7 @@
       <div class="back" style="color: <%=book.cover_contrast%>; width: 200px; height: <%=book_height%>px; background:<%=book.cover_color%>; transform: translateY(-<%=book_height*2%>px) translateZ(-<%=pages/2%>px) rotateY(180deg)">
         <div style="width: <%=200-16%>px; height: <%=book_height-16-8%>px; overflow: hidden"><%= book.description %></div>
         <div style="width: <%=200-16%>px; height: 8px; text-align: center">
-          <a href="#" style="float:left;color:<%=book.cover_contrast%>">Download</a>
+          <a href="<%="/download#{book.file_path}"%>" style="float:left;color:<%=book.cover_contrast%>">Download</a>
           <span style="float:right;"><%=book.class.has_pages? ? "#{book.page_count} pages" : "" %></span>
         </div>
       </div>
