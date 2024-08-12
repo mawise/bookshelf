@@ -6,10 +6,6 @@
     font-family: 'Patua'; 
     src: url('/fonts/patua-one/PatuaOne-Regular.otf');
 }
-@font-face {
-    font-family: 'Bigshoulders';
-    src: url('/fonts/bigshoulders/BigShouldersDisplay-Regular.ttf');
-}
 .container,
 .book-container,
 .book {
@@ -17,32 +13,22 @@
     position: absolute;
 }
 
-.spine {
+.spinetext {
   overflow: hidden;
   text-align: center;
   writing-mode: vertical-rl;
 }
 
-.spine .title,
-.spine-series .title-series {
+.spinetext .title {
   font-family: Patua;
   overflow: hidden;
 }
 
-.spine .author,
-.spine-series .author-series {
+.spinetext .author {
   font-family: Antonio;
 }
 
-.spine-series .series,
-.spine-series .title-series,
-.spine-series .author-series {
-  writing-mode: vertical-rl;
-  text-align: center;
-  white-space: nowrap;
-}
-
-.spine-series .series-index {
+.spine .series-index {
   text-align: center;
   width: 100%;
   height: 20px;
@@ -51,9 +37,6 @@
   line-height: 20px;
 }
 
-.spine-series .series {
-  font-family: Antonio;
-}
 .cover {
   border-top-right-radius: 3px;
   border-bottom-right-radius: 3px;

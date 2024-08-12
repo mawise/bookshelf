@@ -27,27 +27,22 @@
      pages = book.nonlinear_thickness
      book_height = (200 / book.aspect_ratio).to_i
      title_font_size = [0.9*pages, 12].min.to_i
-     title_font_size = [0.5*pages, 12].min.to_i unless book.series.empty?
-     series_font_size = [0.8*pages, 12].min.to_i
    %>
   <div class="book-container" style="transform: translateX(<%= offset+pages/2 %>px) translateY(<%=max_height-book_height%>px);">
   <% offset += pages %>
     <div id="<%=book.id%>" class="book" style="transform: rotateY(90deg);" onclick="toggleBook(this.id)">
       <img class="cover" src="<%="/download#{book.cover}"%>" style="width: 200px; height: <%=book_height %>px; transform: translateZ(<%=pages/2%>px)"> </img> 
-      <div class="spine<%=book.series.empty? ? "" : "-series"%>" style="width: <%=pages%>px; height: <%=book_height%>px; background: <%=book.cover_color%> linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.1) 20%, rgba(255,255,255,0.1) 80%, rgba(255,255,255,0) 100%);; color: <%=book.cover_contrast%>; line-height: <%=pages%>px; transform: translateX(-<%=pages/2%>px) translateY(-<%=book_height%>px) rotateY(-90deg);">
-  <% if book.series.empty? %>
-        <span class="title" style="font-size: <%=title_font_size+1%>px; line-height: <%=pages%>px;"><%= book.title %></span>&emsp;
-        <span class="author" style="font-size: <%=title_font_size%>px; line-height: <%=pages%>px;"><%= book.author %></span>
-  <% else %>
+      <div class="spine" style="width: <%=pages%>px; height: <%=book_height%>px; background: <%=book.cover_color%> linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.1) 20%, rgba(255,255,255,0.1) 80%, rgba(255,255,255,0) 100%);; color: <%=book.cover_contrast%>; line-height: <%=pages%>px; transform: translateX(-<%=pages/2%>px) translateY(-<%=book_height%>px) rotateY(-90deg);">
+  <% series_offset = 0
+     if !book.series.empty?
+       series_offset = 20 
+   %>
         <div class="series-index"><%=book.series_index_display%></div>
-        <div class="spinetext" style="width:100%; height: <%=book_height-20%>px">
-          <div class="series" style="width: 100%; height: 50%; line-height: <%=pages%>px; font-size: <%=series_font_size%>px;"><%=book.series%></div>
-          <div class="title-series" style="width: 50%; height: 50%; line-height: <%=pages/2%>px; font-size: <%=title_font_size+1%>px; transform: translateX(<%=pages/2%>px);">
-            <%=book.title%></div>
-          <div class="author-series" style="width: 50%; height: 50%; line-height: <%=pages/2%>px; font-size: <%=title_font_size%>px; transform: translateY(-<%=(book_height-20)*0.5%>px);">
-            <%=book.author%></div>
-        </div>
   <% end %>
+        <div class="spinetext" style="width:100%; height: <%=book_height-series_offset%>px">
+          <span class="title" style="font-size: <%=title_font_size+1%>px; line-height: <%=pages%>px;"><%= book.title %></span>&emsp;
+          <span class="author" style="font-size: <%=title_font_size%>px; line-height: <%=pages%>px;"><%= book.author %></span>
+        </div>
       </div>
       <div class="back" style="color: <%=book.cover_contrast%>; width: 200px; height: <%=book_height%>px; background:<%=book.cover_color%>; transform: translateY(-<%=book_height*2%>px) translateZ(-<%=pages/2%>px) rotateY(180deg)">
         <div style="width: <%=200-16%>px; height: <%=book_height-16-8%>px; overflow: hidden"><%= book.description %></div>
