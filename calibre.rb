@@ -20,13 +20,13 @@ class CalibreBook
   def self.all_books()
     @@db.execute("select id from books")
         .flatten.map{|book_id| CalibreBook.new(book_id)}
-        .sort_by{|book| [book.author, book.series, book.series_index]}
+        .sort_by{|book| [book.author_sort, book.series, book.series_index]}
   end
 
   def self.some_books(limit=10)
     @@db.execute("select id from books limit #{limit}")
         .flatten.map{|book_id| CalibreBook.new(book_id)}
-        .sort_by{|book| [book.author, book.series, book.series_index]}
+        .sort_by{|book| [book.author_sort, book.series, book.series_index]}
   end
 
   def self.search_author(query)
@@ -55,6 +55,10 @@ class CalibreBook
 
   def author #getting first author, there might be more
     @author ||= @@db.execute("SELECT name FROM authors JOIN books_authors_link ON authors.id=books_authors_link.author WHERE books_authors_link.book=#{@id}").first.first
+  end
+
+  def author_sort
+    @author_sort ||= @@db.execute("SELECT author_sort FROM books where id=#{@id}").first.first
   end
 
   def series

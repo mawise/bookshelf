@@ -1,24 +1,33 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    base64 (0.2.0)
+    mustermann (3.0.2)
+      ruby2_keywords (~> 0.0.1)
     nio4r (2.7.3)
     observer (0.1.2)
     pkg-config (1.5.6)
     puma (6.4.2)
       nio4r (~> 2.0)
-    rack (1.6.13)
-    rack-protection (1.5.5)
-      rack
-    rackup (1.0.0)
-      rack (< 3)
-      webrick
+    rack (3.1.7)
+    rack-protection (4.0.0)
+      base64 (>= 0.1.0)
+      rack (>= 3.0.0, < 4)
+    rack-session (2.0.0)
+      rack (>= 3.0.0)
+    rackup (2.1.0)
+      rack (>= 3)
+      webrick (~> 1.8)
     rmagick (6.0.1)
       observer (~> 0.1)
       pkg-config (~> 1.4)
-    sinatra (1.4.8)
-      rack (~> 1.5)
-      rack-protection (~> 1.4)
-      tilt (>= 1.3, < 3)
+    ruby2_keywords (0.0.5)
+    sinatra (4.0.0)
+      mustermann (~> 3.0)
+      rack (>= 3.0.0, < 4)
+      rack-protection (= 4.0.0)
+      rack-session (>= 2.0.0, < 3)
+      tilt (~> 2.0)
     sqlite3 (2.0.3-arm64-darwin)
     tilt (2.4.0)
     webrick (1.8.1)
@@ -28,9 +37,9 @@ PLATFORMS
 
 DEPENDENCIES
   puma (~> 6.4)
-  rackup (~> 1.0.0)
+  rackup (~> 2.1.0)
   rmagick (~> 6.0)
-  sinatra (~> 1.4.7)
+  sinatra (~> 4.0.0)
   sqlite3 (~> 2.0)
 
 BUNDLED WITH
