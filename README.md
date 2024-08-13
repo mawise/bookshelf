@@ -10,6 +10,8 @@ Special thanks to [Brandon Sanderson](https://www.brandonsanderson.com/) and [Co
 
 ## Usage
 
+You'll need to [download imagemagick](https://imagemagick.org/script/download.php) for `rmagick` to work.
+
 ```bash
 bundle install
 ruby app.rb <path-to-calibre-library>
