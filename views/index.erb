@@ -5,13 +5,6 @@
 </head>
 <body style="font-family:sans-serif;">
 <% 
-   def darker(hexcolors)
-     red = hexcolors[1..2].to_i(16)
-     green = hexcolors[3..4].to_i(16)
-     blue = hexcolors[5..6].to_i(16)
-     return "#" + [red,green,blue].map{|c| (c*0.8).to_i.to_s(16).rjust(2, "0")}.join
-   end
-
    offset = 0 # where to move each book on the shelf
    max_offset = 0
    max_height = 0
@@ -36,8 +29,18 @@
   <% series_offset = 0
      if !book.series.empty?
        series_offset = 20 
-   %>
+       logo = BookLogo.new(book.series)
+       logo_height = title_font_size/2.0 + pages/2.0
+       series_offset += logo.width_at_height(logo_height) if logo.has_logo? # make room for the logo
+       %>
         <div class="series-index"><%=book.series_index_display%></div>
+        <% if logo.has_logo? 
+             logo_width = logo.width_at_height(logo_height)
+             %>
+              <div class="logo" style="height:<%=logo_width%>px">
+                <img src="<%=logo.image_path(book.cover_contrast)%>" style="height:<%=logo_height%>px;transform:translate(-<%=logo_width/2.0-pages/2.0%>px, <%=logo_width/2.0-logo_height/2.0%>px) rotate(90deg); "/>
+              </div>
+        <% end %>
   <% end %>
         <div class="spinetext" style="width:100%; height: <%=book_height-series_offset%>px">
           <span class="title" style="font-size: <%=title_font_size+1%>px; line-height: <%=pages%>px;"><%= book.title %></span>&emsp;

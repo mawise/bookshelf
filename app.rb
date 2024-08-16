@@ -1,5 +1,6 @@
 require 'sinatra'
 require_relative 'calibre.rb'
+require_relative 'logos.rb'
 
 ## setup
 bookdir = ARGV[0]
