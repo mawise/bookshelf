@@ -8,6 +8,8 @@ This is a 3D bookshelf to browse ebooks. It pulls ebook metadata and cover art f
 
 Special thanks to [Brandon Sanderson](https://www.brandonsanderson.com/) and [Cory Doctorow](https://pluralistic.net/) who publish their books without DRM, and to [Standard Ebooks](https://standardebooks.org/) and [Planet Ebook](https://www.planetebook.com/) for beautifully typeset public domain ebooks.  
 
+ Check out [ebookzy.com](https://ebookzy.com/), which offers a wide collection of public domain ebooks.  
+
 ## Usage
 
 You'll need to [download imagemagick](https://imagemagick.org/script/download.php) for `rmagick` to work.
